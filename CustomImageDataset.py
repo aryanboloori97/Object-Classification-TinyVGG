@@ -34,3 +34,14 @@ class CustomImageDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         img = Image.open(self.list_of_pictures[idx])
         return self.transformer(img)
+
+    def classes(self):
+        return [class_ for class_ in self.len_of_each_class().keys()]
+
+    def classes_to_idx(self):
+        flag = 0
+        class_indices = {}
+        for entry in list(os.scandir(self.target_dir)):
+            class_indices[entry.name] = flag
+            flag +=1
+        return class_indices
